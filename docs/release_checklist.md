@@ -36,5 +36,7 @@ Before publishing `sql-map`, verify the public package surface end to end.
 
 - confirm the README matches the shipped behavior exactly
 - confirm package metadata is complete enough for PyPI consumers
+- confirm PyPI Trusted Publishing is configured for `.github/workflows/publish.yml`
+  with the `pypi` environment
 - confirm the package description distinguishes `sql-map` from the unrelated
   `sqlmap` security tool

@@ -27,6 +27,14 @@ python -m build
 twine check dist/*
 ```
 
+## Release Workflow
+
+PyPI Trusted Publishing should point at `.github/workflows/publish.yml`.
+
+- workflow file: `publish.yml`
+- GitHub Actions environment: `pypi`
+- trigger: GitHub Release publication or manual `workflow_dispatch`
+
 ## Contribution Rules
 
 - Keep the public contract narrow and explicit.
