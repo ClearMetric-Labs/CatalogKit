@@ -1,9 +1,19 @@
 name: publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "catalog-core-v*"
+      - "querymap-v*"
   workflow_dispatch:
+    inputs:
+      package:
+        description: Package to publish
+        required: true
+        type: choice
+        options:
+          - catalog-core
+          - querymap
 
 permissions:
   contents: read
@@ -23,16 +33,43 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Resolve package path
+        id: package
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PACKAGE="${{ inputs.package }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+            PACKAGE="${TAG%%-v*}"
+          fi
+
+          case "$PACKAGE" in
+            catalog-core)
+              echo "name=catalog-core" >> "$GITHUB_OUTPUT"
+              echo "path=packages/catalog-core" >> "$GITHUB_OUTPUT"
+              ;;
+            querymap)
+              echo "name=querymap" >> "$GITHUB_OUTPUT"
+              echo "path=packages/querymap" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "Unsupported package: $PACKAGE" >&2
+              exit 1
+              ;;
+          esac
+
       - name: Install release dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install build twine
 
       - name: Build distribution artifacts
-        run: python -m build
+        run: python -m build ${{ steps.package.outputs.path }}
 
       - name: Validate package metadata
-        run: twine check dist/*
+        run: twine check ${{ steps.package.outputs.path }}/dist/*
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: ${{ steps.package.outputs.path }}/dist

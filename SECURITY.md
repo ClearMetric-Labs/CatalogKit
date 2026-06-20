@@ -1,8 +1,8 @@
 # Security Policy
 
-`querymap` is a local static-analysis tool. It does not ship authentication,
-RBAC, RLS, route handlers, or service-side runtime surfaces as part of this OSS
-package.
+`CatalogKit` is a local headless tooling monorepo. Its current OSS packages do
+not ship authentication, RBAC, RLS, route handlers, or service-side runtime
+surfaces.
 
 ## Reporting A Vulnerability
 
@@ -22,6 +22,7 @@ Include:
 
 ## Scope
 
-Security reports should focus on vulnerabilities in the OSS package itself.
+Security reports should focus on vulnerabilities in the OSS packages
+themselves.
 Requests to add auth, RBAC, RLS, or unrelated platform controls are out of scope
 for this repository.

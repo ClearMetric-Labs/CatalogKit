@@ -1,0 +1,12 @@
+{
+  "include": [
+    "packages",
+    "tests"
+  ],
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": [
+    "packages/catalog-core",
+    "packages/querymap"
+  ]
+}

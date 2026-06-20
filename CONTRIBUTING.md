@@ -1,15 +1,16 @@
 # Contributing
 
-Thanks for contributing to `querymap`.
+Thanks for contributing to `CatalogKit`.
 
 ## Setup
 
-Create a virtual environment and install the project in editable mode:
+Create a virtual environment and install the packages you need in editable mode:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install -e ".[dev,release]"
+python -m pip install -e packages/catalog-core
+python -m pip install -e "packages/querymap[dev,release]"
 ```
 
 ## Run The Checks
@@ -20,11 +21,13 @@ Run the local test suite:
 pytest -v
 ```
 
-Build and validate the package before release-facing changes:
+Build and validate packages before release-facing changes:
 
 ```bash
-python -m build
-twine check dist/*
+python -m build packages/catalog-core
+python -m build packages/querymap
+twine check packages/catalog-core/dist/*
+twine check packages/querymap/dist/*
 ```
 
 ## Release Workflow
@@ -33,7 +36,7 @@ PyPI Trusted Publishing should point at `.github/workflows/publish.yml`.
 
 - workflow file: `publish.yml`
 - GitHub Actions environment: `pypi`
-- trigger: GitHub Release publication or manual `workflow_dispatch`
+- trigger: package tag push or manual `workflow_dispatch`
 
 ## Contribution Rules
 
@@ -46,7 +49,7 @@ PyPI Trusted Publishing should point at `.github/workflows/publish.yml`.
 
 ## Scope Guardrails
 
-This OSS package is intentionally limited. Do not add:
+This OSS monorepo is intentionally limited. Do not add:
 
 - enterprise adapters
 - proprietary comparison logic
@@ -57,5 +60,6 @@ This OSS package is intentionally limited. Do not add:
 ## Pull Requests
 
 Keep pull requests small, direct, and honest about scope. If a change expands the
-public contract, update `README.md`, `docs/artifact-schema.md`, and the
-relevant tests in the same pull request.
+public contract, update `README.md`,
+`packages/catalog-core/docs/contract.md`, and the relevant tests in the same
+pull request.

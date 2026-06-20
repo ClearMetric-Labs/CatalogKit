@@ -1,1 +1,0 @@
-"""Renderer package for querymap."""

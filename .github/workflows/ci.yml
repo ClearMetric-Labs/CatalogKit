@@ -5,11 +5,16 @@ on:
   pull_request:
 
 jobs:
-  test:
+  package-tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        package:
+          - name: catalog-core
+            path: packages/catalog-core
+          - name: querymap
+            path: packages/querymap
         python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -21,25 +26,62 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install package and test dependencies
+      - name: Install build and test dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e ".[dev,release]"
+          python -m pip install build twine pytest
 
-      - name: Run test suite
-        run: pytest -v
+      - name: Install package dependencies
+        run: |
+          if [ "${{ matrix.package.name }}" = "querymap" ]; then
+            python -m pip install -e packages/catalog-core
+          fi
+          python -m pip install -e "${{ matrix.package.path }}[dev,release]"
+
+      - name: Run package test suite
+        run: pytest -v ${{ matrix.package.path }}/tests
 
       - name: Build distribution artifacts
-        run: python -m build
+        run: |
+          python -m build ${{ matrix.package.path }}
+          if [ "${{ matrix.package.name }}" = "querymap" ]; then
+            python -m build packages/catalog-core
+          fi
 
       - name: Validate package metadata
-        run: twine check dist/*
+        run: twine check ${{ matrix.package.path }}/dist/*
 
       - name: Smoke test installed wheel
         run: |
           python -m venv .pkgtest
           . .pkgtest/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install dist/*.whl
-          querymap --dialect postgres examples/ugly_real_world.sql
-          python -m querymap --dialect postgres examples/simple.sql
+          if [ "${{ matrix.package.name }}" = "catalog-core" ]; then
+            python -m pip install ${{ matrix.package.path }}/dist/*.whl
+            python -c "import catalog_core; print(catalog_core.__version__)"
+          else
+            python -m pip install packages/catalog-core/dist/*.whl
+            python -m pip install ${{ matrix.package.path }}/dist/*.whl
+            querymap --dialect postgres packages/querymap/examples/ugly_real_world.sql
+            python -m querymap --dialect postgres packages/querymap/examples/simple.sql
+          fi
+
+  repository-boundaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/catalog-core
+          python -m pip install -e "packages/querymap[dev]"
+
+      - name: Run repository boundary checks
+        run: pytest -v tests/test_repository_boundaries.py
