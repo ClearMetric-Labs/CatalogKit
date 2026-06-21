@@ -8,6 +8,8 @@ from catalogkit.lineage import build_lineage_map, trace_upstream
 from catalogkit.lineage.cli import main
 from catalogkit.lineage.errors import LineageInputError
 
+from .ground_truth import load_built_fixture
+
 
 def test_invalid_file_input_fails_loudly(tmp_path: Path):
     invalid_file = tmp_path / "not_a_manifest.txt"
@@ -151,10 +153,10 @@ def test_unresolved_lineage_warning_is_emitted_for_flagged_shopify_column():
         / "manifest.json"
     )
 
-    lineage_map = build_lineage_map(manifest_path, dialect="postgres")
+    _project, artifact = load_built_fixture(manifest_path, "postgres")
 
     assert any(
         warning.code == "unresolved_lineage"
         and warning.subject_id == "column:stg_shopify__order.order_id"
-        for warning in lineage_map.warnings
+        for warning in artifact.warnings
     )

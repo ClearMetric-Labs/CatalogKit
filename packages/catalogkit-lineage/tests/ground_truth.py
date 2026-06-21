@@ -1,11 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 
 import yaml
-from catalogkit.lineage import build_lineage_map, trace_downstream, trace_upstream
+from catalogkit.core import CatalogArtifact
+from catalogkit.lineage.build import (
+    build_catalog_artifact_from_project,
+    trace_downstream_from_artifact,
+    trace_upstream_from_artifact,
+)
 from catalogkit.lineage.graph import dataset_from_location
+from catalogkit.lineage.loaders import ProjectInput, load_project
 
 FIXTURES_ROOT = Path(__file__).resolve().parent / "fixtures"
 
@@ -80,17 +87,9 @@ def load_ground_truth_file(path: Path) -> list[Probe]:
 
 
 def run_probe(probe: Probe) -> ProbeResult:
-    upstream = trace_upstream(
-        probe.project_path,
-        dialect=probe.dialect,
-        selection=probe.selection,
-    )
-    downstream = trace_downstream(
-        probe.project_path,
-        dialect=probe.dialect,
-        selection=probe.selection,
-    )
-    lineage_map = build_lineage_map(probe.project_path, dialect=probe.dialect)
+    _project, artifact = load_built_fixture(probe.project_path, probe.dialect)
+    upstream = trace_upstream_from_artifact(artifact, selection=probe.selection)
+    downstream = trace_downstream_from_artifact(artifact, selection=probe.selection)
     actual_warnings = tuple(
         sorted(
             (
@@ -99,7 +98,7 @@ def run_probe(probe: Probe) -> ProbeResult:
                     dataset=dataset_from_location(warning.location),
                     subject_id=warning.subject_id,
                 )
-                for warning in lineage_map.warnings
+                for warning in artifact.warnings
             ),
             key=lambda item: (item.dataset, item.code, item.subject_id or ""),
         )
@@ -196,6 +195,16 @@ def project_inputs() -> list[tuple[Path, str]]:
             )
         inputs.append((project_input, dialect))
     return inputs
+
+
+@lru_cache(maxsize=None)
+def load_built_fixture(
+    project_path: Path, dialect: str
+) -> tuple[ProjectInput, CatalogArtifact]:
+    """Load and build a fixture once per process for test reuse."""
+    project = load_project(project_path.resolve(), dialect=dialect)
+    artifact = build_catalog_artifact_from_project(project, dialect=dialect)
+    return project, artifact
 
 
 def _require_string(payload: dict, key: str, *, path: Path) -> str:

@@ -82,6 +82,24 @@ def trace_upstream_from_project(
     selection: str,
 ) -> TraversalResult:
     artifact = build_catalog_artifact_from_project(project, dialect=dialect)
+    return trace_upstream_from_artifact(artifact, selection=selection)
+
+
+def trace_downstream_from_project(
+    project: ProjectInput,
+    *,
+    dialect: str,
+    selection: str,
+) -> TraversalResult:
+    artifact = build_catalog_artifact_from_project(project, dialect=dialect)
+    return trace_downstream_from_artifact(artifact, selection=selection)
+
+
+def trace_upstream_from_artifact(
+    artifact: CatalogArtifact,
+    *,
+    selection: str,
+) -> TraversalResult:
     selection_id = _selection_to_column_id(selection)
     _require_column_selection(artifact, selection=selection, selection_id=selection_id)
     return TraversalResult(
@@ -96,13 +114,11 @@ def trace_upstream_from_project(
     )
 
 
-def trace_downstream_from_project(
-    project: ProjectInput,
+def trace_downstream_from_artifact(
+    artifact: CatalogArtifact,
     *,
-    dialect: str,
     selection: str,
 ) -> TraversalResult:
-    artifact = build_catalog_artifact_from_project(project, dialect=dialect)
     selection_id = _selection_to_column_id(selection)
     _require_column_selection(artifact, selection=selection, selection_id=selection_id)
     return TraversalResult(
