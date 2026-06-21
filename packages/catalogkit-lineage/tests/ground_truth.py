@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 from catalogkit.lineage import build_lineage_map, trace_downstream, trace_upstream
-from catalogkit.lineage.graph import _dataset_from_location
+from catalogkit.lineage.graph import dataset_from_location
 
 FIXTURES_ROOT = Path(__file__).resolve().parent / "fixtures"
 
@@ -96,7 +96,7 @@ def run_probe(probe: Probe) -> ProbeResult:
             (
                 WarningExpectation(
                     code=warning.code,
-                    dataset=_dataset_from_location(warning.location),
+                    dataset=dataset_from_location(warning.location),
                     subject_id=warning.subject_id,
                 )
                 for warning in lineage_map.warnings

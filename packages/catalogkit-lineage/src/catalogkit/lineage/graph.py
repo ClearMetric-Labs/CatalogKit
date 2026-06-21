@@ -50,7 +50,7 @@ def warnings_for_subject(
         warning
         for warning in artifact.warnings
         if warning.subject_id is None
-        and _dataset_from_location(warning.location) == dataset_name
+        and dataset_from_location(warning.location) == dataset_name
     ]
 
 
@@ -125,7 +125,7 @@ def _edges_by_pair(
     return pairs
 
 
-def _dataset_from_location(location: str | None) -> str:
+def dataset_from_location(location: str | None) -> str:
     if not location:
         return ""
     return location.rsplit("/", 1)[-1].split(".", 1)[0]

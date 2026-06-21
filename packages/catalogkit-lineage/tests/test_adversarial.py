@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import yaml
 from catalogkit.lineage import build_lineage_map
-from catalogkit.lineage.graph import _dataset_from_location
+from catalogkit.lineage.graph import dataset_from_location
 
 from .ground_truth import FIXTURES_ROOT
 
@@ -40,7 +40,7 @@ def test_adversarial_fixture_matches_expected_behavior(expected_path: Path):
     expected_edges = {tuple(item) for item in payload.get("derives_from", [])}
 
     actual_warnings = Counter(
-        (_dataset_from_location(warning.location), warning.code)
+        (dataset_from_location(warning.location), warning.code)
         for warning in lineage_map.warnings
     )
     expected_warnings = Counter(
