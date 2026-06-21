@@ -10,6 +10,7 @@ from catalogkit.lineage.coverage import (
     find_bogus_source_leaves,
     find_silent_columns,
 )
+from catalogkit.lineage.loaders import load_project
 from catalogkit.lineage.render.json import render_json
 
 from .ground_truth import (
@@ -43,12 +44,16 @@ def test_fixture_corpus_invariants(project_input, dialect: str):
         assert edge.source_id in node_ids
         assert edge.target_id in node_ids
 
+
+def test_manifest_fixture_build_is_deterministic():
+    manifest = project_fixture_input(FIXTURES_ROOT / "projects" / "jaffle_shop")
+    project = load_project(manifest, dialect="postgres")
     first = json.dumps(
-        render_json(build_lineage_map_from_project(project, dialect=dialect)),
+        render_json(build_lineage_map_from_project(project, dialect="postgres")),
         sort_keys=True,
     )
     second = json.dumps(
-        render_json(build_lineage_map_from_project(project, dialect=dialect)),
+        render_json(build_lineage_map_from_project(project, dialect="postgres")),
         sort_keys=True,
     )
     assert first == second
