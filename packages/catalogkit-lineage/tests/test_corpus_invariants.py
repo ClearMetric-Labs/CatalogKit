@@ -13,12 +13,14 @@ from catalogkit.lineage.coverage import (
 )
 from catalogkit.lineage.loaders import load_project
 
-from .ground_truth import FIXTURES_ROOT, project_inputs
+from .ground_truth import FIXTURES_ROOT, project_fixture_input, project_inputs
+
+PROJECT_FIXTURES = project_inputs()
 
 
 @pytest.mark.parametrize(
     ("project_input", "dialect"),
-    project_inputs(),
+    PROJECT_FIXTURES,
     ids=lambda item: item.name if isinstance(item, Path) else str(item),
 )
 def test_fixture_has_no_silent_columns_or_bogus_source_leaves(
@@ -37,7 +39,7 @@ def test_fixture_has_no_silent_columns_or_bogus_source_leaves(
 
 @pytest.mark.parametrize(
     ("project_input", "dialect"),
-    project_inputs(),
+    PROJECT_FIXTURES,
     ids=lambda item: item.name if isinstance(item, Path) else str(item),
 )
 def test_fixture_lineage_json_is_deterministic(
@@ -56,7 +58,7 @@ def test_fixture_lineage_json_is_deterministic(
 
 @pytest.mark.parametrize(
     ("project_input", "dialect"),
-    project_inputs(),
+    PROJECT_FIXTURES,
     ids=lambda item: item.name if isinstance(item, Path) else str(item),
 )
 def test_fixture_edges_reference_existing_nodes(
@@ -71,8 +73,8 @@ def test_fixture_edges_reference_existing_nodes(
 
 
 def test_source_leaf_regression_cases():
-    jaffle_manifest = FIXTURES_ROOT / "projects" / "jaffle_shop" / "manifest.json"
-    shopify_manifest = FIXTURES_ROOT / "projects" / "shopify" / "manifest.json"
+    jaffle_manifest = project_fixture_input(FIXTURES_ROOT / "projects" / "jaffle_shop")
+    shopify_manifest = project_fixture_input(FIXTURES_ROOT / "projects" / "shopify")
 
     jaffle_project = load_project(jaffle_manifest, dialect="postgres")
     jaffle_artifact = build_catalog_artifact(jaffle_manifest, dialect="postgres")
