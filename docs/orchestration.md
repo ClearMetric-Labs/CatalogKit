@@ -9,7 +9,9 @@ Composition with Power BI or query artifacts remains **optional** via `clearmetr
 Full contract: [`packages/clearmetric-core/docs/contract.md`](../packages/clearmetric-core/docs/contract.md)
 
 Backbone v2 modules (`clearmetric.graph`, policy-gated projections, intent adapter, runtime) are
-documented in [`backbone-v2-roadmap.md`](backbone-v2-roadmap.md). Phases 1–6 are gated on
+built for internal lab use behind `CM_EXPERIMENTAL=1` — see [backbone-lab.md](backbone-lab.md).
+Public wedge orchestration remains discover → ingest → merge → bind only. Phases 1–6 public
+expansion is documented in [`backbone-v2-roadmap.md`](backbone-v2-roadmap.md) and gated on
 [`adoption-gate.md`](adoption-gate.md).
 
 ## Wedge usage (recommended)

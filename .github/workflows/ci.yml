@@ -66,6 +66,7 @@ jobs:
         run: |
           python -m pytest -v \
             tests/test_repository_boundaries.py \
+            tests/test_backbone_lab_boundaries.py \
             tests/test_cross_package_artifacts.py \
             tests/test_module_independence.py
 

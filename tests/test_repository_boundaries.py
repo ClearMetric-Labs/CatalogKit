@@ -36,7 +36,7 @@ ALLOWED_MODULES_BY_SUBPACKAGE = {
         "clearmetric.policy",
     },
     "cleaner": {"clearmetric.core", "clearmetric.graph"},
-    "policy": {"clearmetric.core", "clearmetric.policy", "clearmetric.projection"},
+    "policy": {"clearmetric.core", "clearmetric.policy"},
     "projection": {"clearmetric.core", "clearmetric.policy"},
     "compiler": {
         "clearmetric.core",
@@ -194,10 +194,23 @@ def test_emitters_do_not_import_evaluate_node():
     for path in emitters_root.rglob("*.py"):
         if _is_ignored_package_path(path):
             continue
+        if path.name == "registry.py":
+            continue
         source = path.read_text(encoding="utf-8")
         if "evaluate_node" in source:
             violations.append(f"{path}: references evaluate_node")
+        if "from clearmetric.policy import gated_context" in source:
+            violations.append(f"{path}: imports gated_context")
+        if "gated_context(" in source:
+            violations.append(f"{path}: calls gated_context")
     assert violations == []
+
+
+def test_emitters_registry_may_import_policy_context():
+    registry_path = MODULE_ROOTS["emitters"] / "registry.py"
+    source = registry_path.read_text(encoding="utf-8")
+    assert "gated_context" in source
+    assert "evaluate_node" not in source
 
 
 def test_cli_normal_compile_choices_are_wedge_only():

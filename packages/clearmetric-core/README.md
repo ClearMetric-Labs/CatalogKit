@@ -53,6 +53,10 @@ from clearmetric.core import attach_warehouse_bindings, merge, parse_column_sele
 - [`../../examples/wedge-jaffle`](../../examples/wedge-jaffle)
 - [`../../docs/v1-boundary.md`](../../docs/v1-boundary.md)
 
+**Experimental (internal):** backbone lab primitives (`consumer-catalog`, `frontend-contract`,
+`cm query`) require `CM_EXPERIMENTAL=1` — see [`../../docs/backbone-lab.md`](../../docs/backbone-lab.md).
+Not part of the v1 wedge promise until [adoption-gate.md](../../docs/adoption-gate.md) passes.
+
 ```bash
 python -m pip install -e ".[dev,release]"
 ```

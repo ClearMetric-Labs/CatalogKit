@@ -33,7 +33,7 @@ If `cm` is occupied on your PATH: `python -m clearmetric.cli --project-dir . …
 - **Catalog slice** — `compile --format catalog` emits table/column/model nodes only
 - **Cleaner + security floor** — structural checks, schema drift warnings, and a non-bypassable security floor at compile time
 
-**Gated** until [adoption-gate.md](docs/adoption-gate.md) passes with external evidence: metrics/query YAML, intent adapter, `cm query`/`serve`, policy-gated exports, user-defined checks, live warehouse connectors, full policy compiler. See [`docs/future-roadmap-gated.md`](docs/future-roadmap-gated.md) and [`docs/v1-boundary.md`](docs/v1-boundary.md).
+**Gated** until [adoption-gate.md](docs/adoption-gate.md) passes with external evidence: metrics/query YAML, intent adapter, `cm query`/`serve`, policy-gated exports, user-defined checks, live warehouse connectors, full policy compiler. Internal lab build (tested behind `CM_EXPERIMENTAL=1`): [`docs/backbone-lab.md`](docs/backbone-lab.md). Roadmap: [`docs/future-roadmap-gated.md`](docs/future-roadmap-gated.md). Scope: [`docs/v1-boundary.md`](docs/v1-boundary.md).
 
 ## Why it's different
 

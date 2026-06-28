@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 
 import yaml
@@ -9,6 +10,19 @@ from clearmetric.core.errors import PolicyError
 from pydantic import ValidationError
 
 from .models import PolicyRulesFile
+
+
+@dataclass(frozen=True)
+class GatedContext:
+    identity: str
+    rules: PolicyRulesFile
+
+
+def require_gated_identity(identity: str | None) -> str:
+    """Validate and normalize identity for gated consumer operations."""
+    if not identity or not identity.strip():
+        raise PolicyError("gated operation requires identity")
+    return identity.strip()
 
 
 def load_rules(path: str | Path) -> PolicyRulesFile:
@@ -31,12 +45,9 @@ def load_rules(path: str | Path) -> PolicyRulesFile:
         ) from exc
 
 
-def load_gated_context(
-    *,
-    rules_path: str | Path,
-    identity: str | None,
-) -> tuple[str, PolicyRulesFile]:
-    """Load policy rules for a gated consumer operation."""
-    if not identity:
-        raise PolicyError("gated operation requires identity")
-    return identity, load_rules(rules_path)
+def gated_context(*, rules_path: str | Path, identity: str | None) -> GatedContext:
+    """Load identity and policy rules for a gated consumer operation."""
+    return GatedContext(
+        identity=require_gated_identity(identity),
+        rules=load_rules(rules_path),
+    )

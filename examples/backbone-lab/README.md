@@ -5,10 +5,15 @@
 This example proves Module A primitives on the same graph as the wedge. It is **not**
 part of the public product promise in the root README.
 
-## Setup
+## Prerequisites
 
-Copy jaffle shop fixtures into this directory (or run from a project initialized with
-warehouse + dbt + intent sources). See [docs/backbone-lab.md](../../docs/backbone-lab.md).
+```bash
+pip install -e "packages/clearmetric-core[dev,runtime]"
+cd examples/backbone-lab
+```
+
+Warehouse and dbt fixtures are referenced from committed paths under
+`packages/clearmetric-core/tests/fixtures/` (same pattern as wedge-jaffle).
 
 ## Demo
 

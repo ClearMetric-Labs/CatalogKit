@@ -14,7 +14,6 @@ from clearmetric.compiler import discover
 from clearmetric.compiler import impact as run_impact
 from clearmetric.compiler.validate import enforce_graph
 from clearmetric.core import ClearMetricError, __version__, load_artifact_file
-from clearmetric.core.contracts import resolve_query_node
 from clearmetric.emitters import emit_compile, emit_impact
 
 from .experimental import (
@@ -22,6 +21,8 @@ from .experimental import (
     is_experimental_enabled,
     is_lab_compile_format,
     require_experimental,
+    require_gated_compile,
+    require_query_identity,
 )
 
 
@@ -270,16 +271,11 @@ def _run_scan(args: argparse.Namespace) -> int:
 
 
 def _run_compile(args: argparse.Namespace) -> int:
+    identity = getattr(args, "identity", None)
     if is_lab_compile_format(args.format):
-        require_experimental(f"compile --format {args.format}")
-        if not getattr(args, "identity", None):
-            print(
-                f"cm error: --identity required for experimental format {args.format!r}",
-                file=sys.stderr,
-            )
-            return 1
+        identity = require_gated_compile(args.format, identity)
     compiled = run_compile(_project_dir(args))
-    print(emit_compile(args.format, compiled, identity=getattr(args, "identity", None)))
+    print(emit_compile(args.format, compiled, identity=identity))
     return 0
 
 
@@ -323,23 +319,17 @@ def _run_contract(args: argparse.Namespace) -> int:
 
 def _run_query(args: argparse.Namespace) -> int:
     require_experimental("cm query")
-    from clearmetric.policy import load_gated_context
-    from clearmetric.runtime import execute_gated_query
+    from clearmetric.runtime import execute_project_query
 
+    identity = require_query_identity(args.identity)
     root = _project_dir(args)
     compiled = run_compile(root)
-    identity, rules = load_gated_context(
-        rules_path=compiled.project.policy.rules,
-        identity=args.identity,
-    )
-    node = resolve_query_node(compiled.artifact, args.query_id)
-
-    seed_path = root / "fixtures" / "seed.sql"
-    rows = execute_gated_query(
-        node,
+    rows = execute_project_query(
+        compiled.artifact,
         identity=identity,
-        rules=rules,
-        seed_sql_path=seed_path if seed_path.is_file() else None,
+        rules_path=compiled.project.policy.rules,
+        query_selection=args.query_id,
+        project_dir=root,
     )
     print(json.dumps(rows, indent=2, sort_keys=False))
     return 0

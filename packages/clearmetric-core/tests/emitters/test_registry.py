@@ -1,11 +1,16 @@
+"""Emitter registry tests."""
+
 from __future__ import annotations
 
 import json
 from pathlib import Path
 
+import pytest
 from clearmetric.compiler.compile import compile as compile_project
+from clearmetric.core.errors import PolicyError
 from clearmetric.emitters.registry import emit_compile
 
+from tests.backbone_lab.helpers import setup_backbone_lab_project
 from tests.wedge.helpers import setup_wedge_project
 
 
@@ -29,3 +34,23 @@ def test_emit_compile_catalog_excludes_non_assets(tmp_path: Path):
     assert kinds.issubset({"table", "column", "model"})
     assert "report" not in kinds
     assert "visual" not in kinds
+
+
+def test_emit_compile_gated_formats_require_identity(tmp_path: Path):
+    compiled = compile_project(setup_backbone_lab_project(tmp_path / "lab"))
+    with pytest.raises(PolicyError):
+        emit_compile("consumer-catalog", compiled, identity=None)
+    with pytest.raises(PolicyError):
+        emit_compile("frontend-contract", compiled, identity=None)
+
+
+def test_emit_compile_gated_formats_with_identity(tmp_path: Path):
+    compiled = compile_project(setup_backbone_lab_project(tmp_path / "lab"))
+    consumer = json.loads(
+        emit_compile("consumer-catalog", compiled, identity="analyst")
+    )
+    assert any(node["id"] == "query:executive_revenue" for node in consumer["nodes"])
+    contracts = json.loads(
+        emit_compile("frontend-contract", compiled, identity="analyst")
+    )
+    assert contracts["queries"][0]["id"] == "query:executive_revenue"

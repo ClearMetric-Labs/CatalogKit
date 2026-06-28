@@ -23,6 +23,8 @@ Until external evidence exists, do **not**:
   frontend contract, runtime harness)
 - Pipeline wiring and end-to-end tests (`CM_EXPERIMENTAL=1`)
 - `examples/backbone-lab/` and [backbone-lab.md](backbone-lab.md)
+- Backbone lab QA finish line in `0.6.1` (gated path, atomic compile contracts, runtime
+  harness, boundary tests — still experimental, not README promise)
 
 ## Requirements (public unlock)
 

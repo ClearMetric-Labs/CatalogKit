@@ -24,8 +24,30 @@ Run repository boundary checks:
 
 ```bash
 python -m pytest -v tests/test_repository_boundaries.py
+python -m pytest -v tests/test_backbone_lab_boundaries.py
 python -m pytest -v tests/test_cross_package_artifacts.py
 python -m pytest -v tests/test_module_independence.py
+```
+
+Backbone lab (experimental; requires `CM_EXPERIMENTAL=1` in subprocess tests):
+
+```bash
+python -m pytest -v \
+  packages/clearmetric-core/tests/test_lab_cli.py \
+  packages/clearmetric-core/tests/test_mvp_demo.py \
+  packages/clearmetric-core/tests/test_example_backbone_lab_e2e.py \
+  packages/clearmetric-core/tests/compiler/test_compile_contracts.py \
+  packages/clearmetric-core/tests/policy/test_gate.py \
+  packages/clearmetric-core/tests/runtime/
+```
+
+Local backbone lab smoke:
+
+```bash
+export CM_EXPERIMENTAL=1
+cd examples/backbone-lab
+cm compile --format consumer-catalog --identity analyst
+cm query --identity analyst query:executive_revenue
 ```
 
 Lineage trust gate:

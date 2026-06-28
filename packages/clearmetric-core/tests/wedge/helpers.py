@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import os
 import shutil
+import subprocess
+import sys
 from pathlib import Path
 
 import yaml
@@ -70,3 +73,29 @@ def setup_wedge_project(project_dir: Path) -> Path:
     write_warehouse_schema(project_dir)
     write_wedge_config(project_dir)
     return project_dir
+
+
+def run_cm_subprocess(
+    project_dir: Path,
+    *args: str,
+    experimental: bool = False,
+) -> subprocess.CompletedProcess[str]:
+    env = os.environ.copy()
+    if experimental:
+        env["CM_EXPERIMENTAL"] = "1"
+    else:
+        env.pop("CM_EXPERIMENTAL", None)
+    return subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "clearmetric.cli",
+            "--project-dir",
+            str(project_dir),
+            *args,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+        env=env,
+    )

@@ -7,10 +7,18 @@ from pathlib import Path
 
 import yaml
 from tests.wedge.helpers import (
-    JAFFLE_WAREHOUSE_SCHEMA,
     copy_jaffle_fixture,
     write_warehouse_schema,
 )
+
+__all__ = [
+    "copy_backbone_lab_example",
+    "setup_backbone_lab_project",
+    "write_lab_config",
+    "write_lab_intent",
+    "write_lab_policy",
+    "write_lab_seed",
+]
 
 
 def write_lab_policy(project_dir: Path) -> None:
@@ -126,11 +134,6 @@ def copy_backbone_lab_example(project_dir: Path) -> Path:
     example = repo_root / "examples" / "backbone-lab"
     if example.is_dir():
         shutil.copytree(example, project_dir, dirs_exist_ok=True)
-        target = project_dir / "target"
-        target.mkdir(parents=True, exist_ok=True)
-        copy_jaffle_fixture(project_dir)
-        if not (project_dir / "warehouse_schema.json").is_file():
-            shutil.copy2(JAFFLE_WAREHOUSE_SCHEMA, project_dir / "warehouse_schema.json")
     else:
         setup_backbone_lab_project(project_dir)
     return project_dir

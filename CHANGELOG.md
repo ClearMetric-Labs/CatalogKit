@@ -2,17 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## 0.6.1 - 2026-06-28
+
+### Changed (Backbone Lab QA — experimental, not public README promise)
+
+- **Policy context** — `GatedContext`, `gated_context`, and `require_gated_identity` in `policy/load.py` (replaces `load_gated_context` / `emitters/context.py`)
+- **Emitter dispatch** — registry is the sole `gated_context` caller; wedge formats ignore identity
+- **Compile contracts** — atomic two-pass `compile_query_contracts` (collect all errors, no input mutation)
+- **Runtime** — `execute_project_query` gates via `require_allow`, requires fixture seed, executes compiled SQL only
+- **CLI boundaries** — `require_gated_compile` / `require_query_identity` normalize identity at the CLI edge
+- **Tests** — compile_contracts, policy gate, runtime, lab CLI subprocess, committed example e2e (230 tests)
+- **CI** — repository boundary suite includes `test_backbone_lab_boundaries.py`
+
+### Docs
+
+- Updated [backbone-lab.md](docs/backbone-lab.md), [development.md](docs/development.md), and package README for lab QA finish line
+
 ## 0.6.0 - 2026-06-28
 
 ### Added (Backbone Lab — experimental, not public README promise)
 
 - **Pipeline stages** — `link`, `compile_contracts` after bind; intent ingest via adapter registry
-- **Policy gate** — `policy/gate.py`, `require_allow`, `load_gated_context`; projection uses `gate` only
+- **Policy gate** — `policy/gate.py`, `require_allow`, `GatedContext` / `gated_context`; projection uses `gate` only
 - **Lab emitters** — `consumer-catalog`, `frontend-contract` behind `CM_EXPERIMENTAL=1` and `--identity`
 - **Runtime harness** — `clearmetric.runtime`, `cm query` (DuckDB fixtures); gate before execute; no `cm serve`
 - **Contracts** — `require_compiled_query_sql` (no raw SQL fallback), `resolve_query_node`, `parse_query_selection`
 - **Examples & docs** — `examples/backbone-lab/`, `docs/backbone-lab.md`; adoption gate scoped to public claims only
-- **Tests** — MVP demo subprocess flow, backbone lab boundary tests, contract/discover/link coverage (203 tests)
+- **Tests** — MVP demo subprocess flow, backbone lab boundary tests, contract/discover/link coverage
 
 ### Changed
 

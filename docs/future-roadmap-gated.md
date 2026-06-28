@@ -2,8 +2,9 @@
 
 **Status:** Public README / marketing expansion only — **not** internal backbone lab builds.
 
-Active internal execution: [backbone-lab.md](backbone-lab.md) (build + test primitives behind
-`CM_EXPERIMENTAL=1`). Wedge shipping: [v1-boundary.md](v1-boundary.md).
+Active internal execution: [backbone-lab.md](backbone-lab.md) (lab QA complete in `0.6.1` —
+primitives built and tested behind `CM_EXPERIMENTAL=1`; adoption gate still blocks public
+claims). Wedge shipping: [v1-boundary.md](v1-boundary.md).
 
 ## Gate requirement (public claims only)
 

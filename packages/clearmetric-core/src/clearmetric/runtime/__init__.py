@@ -5,26 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
-from clearmetric.core.contracts import require_compiled_query_sql
+from clearmetric.core.contracts import require_compiled_query_sql, resolve_query_node
 from clearmetric.core.errors import QueryExecutionError
-from clearmetric.policy import require_allow
-from clearmetric.policy.models import PolicyRulesFile
+from clearmetric.policy import gated_context, require_allow
 
 if TYPE_CHECKING:
-    from clearmetric.core.models import Node
-
-
-def execute_gated_query(
-    node: Node,
-    *,
-    identity: str,
-    rules: PolicyRulesFile,
-    seed_sql_path: Path | None = None,
-) -> list[dict]:
-    """Gate a query node, require compiled SQL, then execute via DuckDB."""
-    require_allow(node=node, identity=identity, rules=rules)
-    sql = require_compiled_query_sql(node)
-    return execute_query(sql, seed_sql_path=seed_sql_path)
+    from clearmetric.core.models import CatalogArtifact
 
 
 def execute_query(
@@ -44,7 +30,9 @@ def execute_query(
     owns_connection = connection is None
     conn = connection or duckdb.connect(database=":memory:")
     try:
-        if seed_sql_path is not None and seed_sql_path.is_file():
+        if seed_sql_path is not None:
+            if not seed_sql_path.is_file():
+                raise QueryExecutionError(f"fixture seed not found: {seed_sql_path}")
             conn.execute(seed_sql_path.read_text(encoding="utf-8"))
         relation = conn.execute(sql)
         if relation.description is None:
@@ -60,4 +48,20 @@ def execute_query(
             conn.close()
 
 
-__all__ = ["execute_gated_query", "execute_query"]
+def execute_project_query(
+    artifact: CatalogArtifact,
+    *,
+    identity: str,
+    rules_path: str | Path,
+    query_selection: str,
+    project_dir: Path,
+) -> list[dict]:
+    """Gate, resolve, and execute a project query contract via DuckDB fixtures."""
+    ctx = gated_context(rules_path=rules_path, identity=identity)
+    node = resolve_query_node(artifact, query_selection)
+    require_allow(node=node, identity=ctx.identity, rules=ctx.rules)
+    sql = require_compiled_query_sql(node)
+    return execute_query(sql, seed_sql_path=project_dir / "fixtures" / "seed.sql")
+
+
+__all__ = ["execute_project_query", "execute_query"]
