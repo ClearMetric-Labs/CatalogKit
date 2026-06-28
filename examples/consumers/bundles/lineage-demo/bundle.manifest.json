@@ -1,0 +1,27 @@
+{
+  "schema_version": "1",
+  "scenario_id": "lineage-demo",
+  "label": "SQL folder column lineage",
+  "artifacts": {
+    "graph": {
+      "path": "graph.json",
+      "kind": "catalog-artifact",
+      "lane": "admin"
+    },
+    "catalog": {
+      "path": "catalog.json",
+      "kind": "catalog-artifact",
+      "lane": "admin"
+    },
+    "impacts": {
+      "orders_base.amount_downstream": {
+        "path": "impacts/orders_base.amount_downstream.json",
+        "selection": "orders_base.amount",
+        "direction": "downstream"
+      }
+    }
+  },
+  "defaults": {
+    "impact_key": "orders_base.amount_downstream"
+  }
+}

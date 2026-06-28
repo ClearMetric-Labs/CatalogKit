@@ -12,4 +12,6 @@ impacts:
     direction: upstream
     manifest_key: orders.amount_upstream
     out: impacts/orders.amount_upstream.json
+defaults:
+  impact_key: orders.amount_upstream
 checks: checks.yaml

@@ -23,7 +23,7 @@ root automatically.
 | [01_public_wedge_lineage.ipynb](01_public_wedge_lineage.ipynb) | Public wedge | Compile the jaffle graph, explore nodes, run impact, report-only clean |
 | [02_compile_formats.ipynb](02_compile_formats.ipynb) | Public wedge | Admin emit formats: `json`, `catalog`, `openlineage`, `text` |
 | [03_impact_analysis.ipynb](03_impact_analysis.ipynb) | Public wedge | Upstream/downstream traversal, warnings, emitted impact JSON |
-| [04_consumer_bundle.ipynb](04_consumer_bundle.ipynb) | Consumer MVP | Bundle manifest, schema validation, rebuild via `build_bundle.py` |
+| [04_consumer_bundle.ipynb](04_consumer_bundle.ipynb) | Consumer MVP | `minimal` + `lineage-demo` bundles, validation, rebuild |
 | [05_backbone_lab_experimental.ipynb](05_backbone_lab_experimental.ipynb) | Lab (`CM_EXPERIMENTAL`) | Policy-gated consumer emits, identity impact, DuckDB query harness |
 
 ## Related examples (non-notebook)

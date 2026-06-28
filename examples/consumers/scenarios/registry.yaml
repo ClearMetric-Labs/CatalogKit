@@ -2,3 +2,6 @@ scenarios:
   - id: minimal
     ci: true
     bundle_dir: ../bundles/minimal
+  - id: lineage-demo
+    ci: true
+    bundle_dir: ../bundles/lineage-demo

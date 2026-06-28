@@ -1,0 +1,17 @@
+id: lineage-demo
+label: SQL folder column lineage
+mode: project
+project_dir: ../../projects/lineage-sql-folder
+outputs:
+  - compile_format: json
+    out: graph.json
+  - compile_format: catalog
+    out: catalog.json
+impacts:
+  - selection: orders_base.amount
+    direction: downstream
+    manifest_key: orders_base.amount_downstream
+    out: impacts/orders_base.amount_downstream.json
+defaults:
+  impact_key: orders_base.amount_downstream
+checks: checks.yaml

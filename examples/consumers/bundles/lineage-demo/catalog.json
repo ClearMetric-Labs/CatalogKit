@@ -1,0 +1,418 @@
+{
+  "version": "1",
+  "nodes": [
+    {
+      "id": "column:customer_totals.customer_id",
+      "kind": "column",
+      "name": "customer_id",
+      "qualified_name": "customer_totals.customer_id",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "customer_totals.customer_id",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:customer_totals.total_amount",
+      "kind": "column",
+      "name": "total_amount",
+      "qualified_name": "customer_totals.total_amount",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "customer_totals.total_amount",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:customers_report.customer_id",
+      "kind": "column",
+      "name": "customer_id",
+      "qualified_name": "customers_report.customer_id",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customers_report.customer_id",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:customers_report.customer_lifetime_value",
+      "kind": "column",
+      "name": "customer_lifetime_value",
+      "qualified_name": "customers_report.customer_lifetime_value",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customers_report.customer_lifetime_value",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:orders_base.amount",
+      "kind": "column",
+      "name": "amount",
+      "qualified_name": "orders_base.amount",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:orders_base.customer_id",
+      "kind": "column",
+      "name": "customer_id",
+      "qualified_name": "orders_base.customer_id",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:orders_base.order_id",
+      "kind": "column",
+      "name": "order_id",
+      "qualified_name": "orders_base.order_id",
+      "evidence": [
+        {
+          "file": "orders_base.sql",
+          "expression": "orders_base.order_id",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:raw_orders.amount",
+      "kind": "column",
+      "name": "amount",
+      "qualified_name": "raw_orders.amount",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:raw_orders.id",
+      "kind": "column",
+      "name": "id",
+      "qualified_name": "raw_orders.id",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "column:raw_orders.user_id",
+      "kind": "column",
+      "name": "user_id",
+      "qualified_name": "raw_orders.user_id",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "table:customer_totals",
+      "kind": "table",
+      "name": "customer_totals",
+      "qualified_name": "customer_totals",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "customer_totals",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "table:customers_report",
+      "kind": "table",
+      "name": "customers_report",
+      "qualified_name": "customers_report",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customers_report",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "table:orders_base",
+      "kind": "table",
+      "name": "orders_base",
+      "qualified_name": "orders_base",
+      "evidence": [
+        {
+          "file": "orders_base.sql",
+          "expression": "orders_base",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "id": "table:raw_orders",
+      "kind": "table",
+      "name": "raw_orders",
+      "qualified_name": "raw_orders",
+      "evidence": [],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "kind": "depends_on",
+      "source_id": "table:customer_totals",
+      "target_id": "table:orders_base",
+      "label": "depends_on",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "orders_base",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "depends_on",
+      "source_id": "table:customers_report",
+      "target_id": "table:customer_totals",
+      "label": "depends_on",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customer_totals",
+          "confidence": "high"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:customer_totals.customer_id",
+      "target_id": "column:orders_base.customer_id",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "orders_base.customer_id",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:customer_totals.total_amount",
+      "target_id": "column:orders_base.amount",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customer_totals.sql",
+          "expression": "orders_base.amount",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:customers_report.customer_id",
+      "target_id": "column:customer_totals.customer_id",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customer_totals.customer_id",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:customers_report.customer_lifetime_value",
+      "target_id": "column:customer_totals.total_amount",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "customers_report.sql",
+          "expression": "customer_totals.total_amount",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:orders_base.amount",
+      "target_id": "column:raw_orders.amount",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "orders_base.sql",
+          "expression": "raw_orders.amount",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:orders_base.customer_id",
+      "target_id": "column:raw_orders.user_id",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "orders_base.sql",
+          "expression": "raw_orders.user_id",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    },
+    {
+      "kind": "derives_from",
+      "source_id": "column:orders_base.order_id",
+      "target_id": "column:raw_orders.id",
+      "label": "derives_from",
+      "confidence": "high",
+      "evidence": [
+        {
+          "file": "orders_base.sql",
+          "expression": "raw_orders.id",
+          "confidence": "medium"
+        }
+      ],
+      "derivation": {
+        "status": "complete",
+        "confidence": "high",
+        "source": "sqlglot",
+        "errors": []
+      }
+    }
+  ],
+  "warnings": []
+}

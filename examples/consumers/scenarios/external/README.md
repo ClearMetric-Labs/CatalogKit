@@ -39,6 +39,8 @@ committing large manifests to the repository.
        direction: upstream
        manifest_key: example_upstream
        out: impacts/example_upstream.json
+   defaults:
+     impact_key: example_upstream
    checks: checks.yaml
    ```
 
@@ -79,6 +81,8 @@ These are suggested external targets — **do not** reference them in viewer cod
 ## Admin lane first
 
 V0 viewers expect **admin-lane** bundles (`json`, `catalog`, ungated `impact`).
+`build_bundle.py` enforces this at build time — lab compile formats and
+`lane: consumer` fail with a clear error.
 
 Lab consumer formats require `CM_EXPERIMENTAL=1`, `--identity`, and
 `lane: consumer` in the bundle manifest — add later as optional scenarios, not

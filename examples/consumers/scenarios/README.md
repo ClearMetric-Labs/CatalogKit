@@ -9,6 +9,8 @@ Scenarios describe how to produce or validate a **consumer bundle** under
 2. Edit `scenario.yaml`:
    - `mode: project` — runs `cm compile` / `cm impact` via `build_bundle.py`
    - `mode: prebuilt` — validates an existing bundle at `bundle_dir`
+   - `defaults.impact_key` — required; must match an entry in `impacts`
+   - V0 builder: admin lane only; `compile_format` must be `json` or `catalog`
 3. Add `checks.yaml` with hand-verified expectations (optional but recommended).
 4. Register in `registry.yaml` (`ci: true` only for CI-safe fixtures).
 5. Run:

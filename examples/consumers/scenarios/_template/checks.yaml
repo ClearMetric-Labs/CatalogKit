@@ -4,7 +4,6 @@ cases:
     expect_node_kinds:
       - table
       - column
-  - id: example_impact_includes
+  - id: example_impact_resolves
     impact: orders.amount_upstream
-    expect_related_includes:
-      - column:orders.amount
+    expect_selection_id: column:orders.amount

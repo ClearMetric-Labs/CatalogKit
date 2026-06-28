@@ -8,9 +8,11 @@ import {
   loadBundle,
   loadArtifact,
   loadImpact,
+  loadJson,
   indexNodes,
   groupByKind,
   warningsForNode,
+  graphLevelWarnings,
 } from "./artifact-kit.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -132,4 +134,49 @@ test("unknown artifact key throws", async () => {
   });
   const bundle = await loadBundle("http://local/");
   await assert.rejects(() => loadArtifact(bundle, "missing"), /Unknown artifact key/);
+});
+
+test("loadJson rejects invalid JSON", async () => {
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    json: async () => JSON.parse("{bad"),
+  });
+  await assert.rejects(() => loadJson("http://local/bad.json"), /Invalid JSON/);
+});
+
+test("loadBundle rejects manifest missing artifacts.graph", async () => {
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    json: async () => ({
+      schema_version: "1",
+      scenario_id: "x",
+      label: "x",
+      artifacts: {
+        catalog: { path: "c", kind: "catalog-artifact", lane: "admin" },
+        impacts: {
+          k: { path: "i.json", selection: "x", direction: "upstream" },
+        },
+      },
+      defaults: { impact_key: "k" },
+    }),
+  });
+  await assert.rejects(() => loadBundle("http://local/"), /artifacts must include graph/);
+});
+
+test("graphLevelWarnings excludes node subjects", () => {
+  const warnings = [
+    { code: "a", message: "graph", subject_id: null },
+    { code: "b", message: "node", subject_id: "column:x.y" },
+  ];
+  assert.deepEqual(graphLevelWarnings(warnings), [warnings[0]]);
+});
+
+test("warningsForNode excludes null subject_id", () => {
+  const warnings = [
+    { code: "a", message: "graph", subject_id: null },
+    { code: "b", message: "node", subject_id: "column:x.y" },
+  ];
+  assert.deepEqual(warningsForNode(warnings, "column:x.y"), [warnings[1]]);
 });

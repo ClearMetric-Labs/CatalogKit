@@ -1,0 +1,31 @@
+{
+  "selection": "orders_base.amount",
+  "selection_id": "column:orders_base.amount",
+  "related_ids": [
+    "column:customer_totals.total_amount",
+    "column:customers_report.customer_lifetime_value"
+  ],
+  "warnings": [],
+  "derivation": [
+    {
+      "id": "column:customer_totals.total_amount",
+      "status": "complete",
+      "confidence": "high"
+    },
+    {
+      "id": "column:customers_report.customer_lifetime_value",
+      "status": "complete",
+      "confidence": "high"
+    },
+    {
+      "edge": "column:customer_totals.total_amount->column:orders_base.amount",
+      "status": "complete",
+      "confidence": "high"
+    },
+    {
+      "edge": "column:customers_report.customer_lifetime_value->column:customer_totals.total_amount",
+      "status": "complete",
+      "confidence": "high"
+    }
+  ]
+}

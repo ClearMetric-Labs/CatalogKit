@@ -3,6 +3,7 @@ import {
   loadArtifact,
   groupByKind,
   warningsForNode,
+  graphLevelWarnings,
   requiredBundleParam,
   escapeHtml,
 } from "../shared/artifact-kit.mjs";
@@ -47,8 +48,12 @@ function render(bundle, catalog, selectedId, searchQuery) {
   const groups = groupByKind(catalog.nodes);
   const kinds = [...groups.keys()].sort();
   const selected = catalog.nodes.find((node) => node.id === selectedId) || null;
+  const graphWarnings = graphLevelWarnings(catalog.warnings);
 
   app.innerHTML = `
+    <div class="layout">
+      ${graphWarnings.length ? `<section class="graph-warnings"><h2>Graph warnings</h2><pre>${escapeHtml(JSON.stringify(graphWarnings, null, 2))}</pre></section>` : ""}
+      <div class="panes">
     <aside class="sidebar">
       <input class="search" type="search" placeholder="Search id, name, kind" value="${escapeHtml(searchQuery)}" />
       ${kinds
@@ -74,6 +79,8 @@ function render(bundle, catalog, selectedId, searchQuery) {
     <section class="content">
       ${selected ? renderNodeDetail(selected, catalog) : "<p>Select a node</p>"}
     </section>
+      </div>
+    </div>
   `;
 
   const searchInput = app.querySelector(".search");

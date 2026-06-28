@@ -25,14 +25,18 @@ function renderImpact(bundle, manifest, impactKey, impact) {
         manifest.artifacts.impacts[impactKey].direction,
       )}</p>
       <h3>Related IDs (${impact.related_ids.length})</h3>
-      <ul class="related-list">
+      ${
+        impact.related_ids.length === 0
+          ? `<p class="meta">No related IDs in this impact trace for the selected fixture.</p>`
+          : `<ul class="related-list">
         ${impact.related_ids
           .map(
             (id) =>
               `<li><a href="../catalog-viewer/index.html?bundle=${bundleParamEncoded}#node=${encodeURIComponent(id)}">${escapeHtml(id)}</a></li>`,
           )
           .join("")}
-      </ul>
+      </ul>`
+      }
       <h3>Derivation</h3>
       <pre>${escapeHtml(JSON.stringify(impact.derivation, null, 2))}</pre>
       <h3>Warnings</h3>

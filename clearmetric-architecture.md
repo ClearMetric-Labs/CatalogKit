@@ -949,5 +949,9 @@ The open-source wedge ships lineage, impact, catalog, and cleaner. Backbone lab 
 behind `CM_EXPERIMENTAL=1` — see [docs/backbone-lab.md](docs/backbone-lab.md). Public product
 expansion remains gated on [docs/adoption-gate.md](docs/adoption-gate.md).
 
+Consumer MVP bundle demos (`examples/consumers/`: `minimal` wedge catalog bundle,
+`lineage-demo` sql_folder impact bundle, vanilla HTML viewers) ship on the public wedge —
+see [examples/consumers/README.md](examples/consumers/README.md).
+
 Multi-consumer lab demos validate **pipeline composability**, not resolver correctness on
 messy SQL. Resolver corpus work remains a parallel track.

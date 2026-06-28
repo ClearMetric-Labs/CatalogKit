@@ -115,7 +115,9 @@ export function groupByKind(nodes) {
 }
 
 export function warningsForNode(warnings, nodeId) {
-  return (warnings || []).filter(
-    (warning) => warning.subject_id === nodeId || warning.subject_id == null,
-  );
+  return (warnings || []).filter((warning) => warning.subject_id === nodeId);
+}
+
+export function graphLevelWarnings(warnings) {
+  return (warnings || []).filter((warning) => warning.subject_id == null);
 }

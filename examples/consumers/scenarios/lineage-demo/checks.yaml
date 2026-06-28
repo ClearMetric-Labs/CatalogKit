@@ -1,0 +1,14 @@
+cases:
+  - id: catalog_has_columns
+    artifact: catalog
+    expect_node_kinds:
+      - table
+      - column
+  - id: default_impact_resolves
+    impact: orders_base.amount_downstream
+    expect_selection_id: column:orders_base.amount
+  - id: downstream_has_lineage
+    impact: orders_base.amount_downstream
+    expect_related_includes:
+      - column:customer_totals.total_amount
+      - column:customers_report.customer_lifetime_value
