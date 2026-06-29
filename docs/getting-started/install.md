@@ -18,6 +18,8 @@ cd ClearMetric-Core/examples/lineage-demo
 
 Or copy that folder from the repo. Then follow the [five-minute demo](five-minute-demo.md).
 
+Prefer Colab? Use the guided [example notebooks](https://github.com/ClearMetric-Labs/ClearMetric-Core/tree/main/examples/notebooks) — cell 1 installs `clearmetric-core` and resolves fixtures automatically.
+
 ## Warehouse metadata
 
 ClearMetric reads a **local INFORMATION_SCHEMA JSON export** — not a live warehouse connection.
